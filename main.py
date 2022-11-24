@@ -7,6 +7,16 @@ from PIL import Image
 
 st.title("News Express")
 
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    data_inicial = st.date_input("Data Inicial", date.today(), key="inicial")
+
+with col2:
+    data_final = st.date_input("Data Final", date.today(), key="final")
+
+
+
 pesquisa_realizada = False
 
 def var_glob ():
@@ -38,20 +48,17 @@ def var_glob ():
 var_glob()
 
 
-
 def pagina_inicial():
     
-    
-
     st.subheader("Pesquise notícias em mais de 7 mil canais de comunicação nacionais e internacionais. ")
 
-    st.subheader("Selecione os critérios de busca no menu lateral e pesquise!!")
+    st.subheader("Selecione os critérios de busca no menu acima e pesquise!!")
 
     image = Image.open("images/news_sources.png")
 
     st.image(image, caption='By Mateus Alves - mateusnazareth85@gmail.com', output_format='PNG')
 
-  
+
 def carregar_dados():
     
     my_key = 'dee44a11f4481f96be4da6a4f3787842'
@@ -90,21 +97,16 @@ def printar_noticias():
 
         st.write('-------------------------------------------')
         i +=1
-    
-with st.sidebar:
-    
-    st.sidebar.header("Filtros")
-    st.subheader("Selecione os filtros desejados")
-    data_inicial = st.date_input("Data Inicial", date.today(), key="inicial")
-    data_final = st.date_input("Data Final", date.today(), key="final")
-    data_pesquisa = data_inicial, data_final 
-    search = st.text_input('Palavra Chave',  key="se")
+
+
+# Criando o campo de selecao de idioma
+with col3:
     language_options = st.multiselect(
      'Select the language',
      ['English', 'Portuguese', 'French', 'Italian', 'Dutch', 'Russian', 'Chinese'], ['Portuguese'],
       key="lang")
 
-    for i in language_options:
+for i in language_options:
         list=[]
 
         if i == "English":
@@ -128,11 +130,31 @@ with st.sidebar:
         elif i == "Chinese":
             list.append('zh')     
 
-    language_options = list
+language_options = list
 
-# st.multiselect(
-# 'Select the Category',
-# ['general', 'business', 'entertainment', 'health', 'science', 'sports', 'technology'])
+data_pesquisa = data_inicial, data_final
+
+search = st.text_input('Palavra Chave',  key="se")
+
+result = st.button('Pesquisar')
+if result:
+        if search == "" :      
+            st.warning('Informe a palavra chave ')
+        else:
+            # Variables edited 
+            pesquisa_realizada = True
+            data_pesquisa = data_inicial, data_final 
+            search_c = search
+            language_options_c = language_options
+            # Variables non edited
+            # limite = None
+            # offset = None
+            # sources = None
+            # categories = None
+            # countries = None
+            
+            carregar_dados()
+            printar_noticias()  
 
 def atualiza_params():   # Pega os inputs do Usuário
     global search_c
@@ -162,28 +184,6 @@ def atualiza_params():   # Pega os inputs do Usuário
 
     df['published_at'] = pd.to_datetime(df['published_at']) 
 
-with st.sidebar:
-    result = st.button('Pesquisar')
-   
-if result:
-    if search == "" :      
-        st.warning('Informe a palavra chave ')
-    else:
-        # Variables edited 
-        pesquisa_realizada = True
-        data_pesquisa = data_inicial, data_final 
-        search_c = search
-        language_options_c = language_options
-        # Variables non edited
-        # limite = None
-        # offset = None
-        # sources = None
-        # categories = None
-        # countries = None
-        
-        carregar_dados()
-        printar_noticias()
-  
    
 if pesquisa_realizada == False:
     pagina_inicial()

@@ -37,6 +37,8 @@ def var_glob ():
 
 var_glob()
 
+
+
 def pagina_inicial():
     
     
@@ -45,7 +47,7 @@ def pagina_inicial():
 
     st.subheader("Selecione os critérios de busca no menu lateral e pesquise!!")
 
-    image = Image.open("News_sources.PNG")
+    image = Image.open("images/news_sources.png")
 
     st.image(image, caption='By Mateus Alves - mateusnazareth85@gmail.com', output_format='PNG')
 
@@ -90,6 +92,7 @@ def printar_noticias():
         i +=1
     
 with st.sidebar:
+    st.beta_set_page_config(initial_sidebar_state="expanded")
     st.sidebar.header("Filtros")
     st.subheader("Selecione os filtros desejados")
     data_inicial = st.date_input("Data Inicial", date.today(), key="inicial")

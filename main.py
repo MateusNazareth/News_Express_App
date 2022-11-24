@@ -92,7 +92,7 @@ def printar_noticias():
         i +=1
     
 with st.sidebar:
-    st.beta_set_page_config(initial_sidebar_state="expanded")
+    
     st.sidebar.header("Filtros")
     st.subheader("Selecione os filtros desejados")
     data_inicial = st.date_input("Data Inicial", date.today(), key="inicial")

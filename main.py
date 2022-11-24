@@ -5,7 +5,14 @@ import requests
 from datetime import date
 from PIL import Image
 
+pesquisa_realizada = False
+
 st.title("News Express")
+
+
+if pesquisa_realizada == False:
+
+    st.subheader("Pesquise notícias em mais de 7 mil canais de comunicação nacionais e internacionais. ")
 
 col1, col2, col3 = st.columns(3)
 
@@ -17,7 +24,7 @@ with col2:
 
 
 
-pesquisa_realizada = False
+
 
 def var_glob ():
     
@@ -50,7 +57,6 @@ var_glob()
 
 def pagina_inicial():
     
-    st.subheader("Pesquise notícias em mais de 7 mil canais de comunicação nacionais e internacionais. ")
 
     st.subheader("Selecione os critérios de busca no menu acima e pesquise!!")
 

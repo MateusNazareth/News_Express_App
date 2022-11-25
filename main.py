@@ -80,29 +80,46 @@ def carregar_dados():
                 date=data_pesquisa,
                 sort="published_desc",
                 )
+    
+    res = requests.models.Response
+    try:
+        res = requests.get('http://api.mediastack.com/v1/news', params=params)
+        
+    
+        data = json.loads(res.text)
 
-    res = requests.get('http://api.mediastack.com/v1/news', params=params)
+        global df
 
-    data = json.loads(res.text)
+        df = pd.DataFrame(data['data'])
 
-    global df
+        df['published_at'] = pd.to_datetime(df['published_at'])   
 
-    df = pd.DataFrame(data['data'])
+    except KeyError:
+        st.write(' Resultado não encontrado, você digitou corretamente?')
 
-    df['published_at'] = pd.to_datetime(df['published_at']) 
+    except TypeError:
+        pass
+        
+
+
 
 def printar_noticias():
-    i = 0
-    for new in df:
-        st.write ('Fonte:  ' + df.source[i].capitalize() + '\n')
-        st.write (df.published_at[i] )
-        st.subheader ('\n' + df.title[i] +'\n')
-        st.caption (df.description[i] + '\n') 
-        st.write ('link: ' + df.url[i] + '\n')
-        #st.write (df.language[i] + '\n')   
+    try:
+        i = 0
+        for new in df:
+            st.write ('Fonte:  ' + df.source[i].capitalize() + '\n')
+            st.write (df.published_at[i] )
+            st.subheader ('\n' + df.title[i] +'\n')
+            st.caption (df.description[i] + '\n') 
+            st.write ('link: ' + df.url[i] + '\n')
+            #st.write (df.language[i] + '\n')   
 
-        st.write('-------------------------------------------')
-        i +=1
+            st.write('-------------------------------------------')
+            i +=1
+
+    except NameError:
+        st.warning(' Favor selecionar o idioma')
+        pagina_inicial()
 
 
 # Criando o campo de selecao de idioma

@@ -107,20 +107,22 @@ def printar_noticias():
     try:
         i = 0
         for new in df:
-            st.write ('Fonte:  ' + df.source[i].capitalize() + '\n')
-            st.write (df.published_at[i] )
-            st.subheader ('\n' + df.title[i] +'\n')
-            st.caption (df.description[i] + '\n') 
-            st.write ('link: ' + df.url[i] + '\n')
-            #st.write (df.language[i] + '\n')   
+            if i < len(df.source):
+                st.write ('Fonte:  ' + df.source[i].capitalize() + '\n')
+                st.write (df.published_at[i] )
+                st.subheader ('\n' + df.title[i] +'\n')
+                st.caption (df.description[i] + '\n') 
+                st.write ('link: ' + df.url[i] + '\n')
+                #st.write (df.language[i] + '\n')   
 
-            st.write('-------------------------------------------')
-            i +=1
+                st.write('-------------------------------------------')
+                i +=1
 
     except NameError:
         st.warning(' Favor selecionar o idioma')
         pagina_inicial()
-
+    
+   
 
 # Criando o campo de selecao de idioma
 with col3:
